@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Tournament Manager</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  </head>
+  <body>
+  <section class="section">
+    <div class="container">
+      <h1 class="title is-3">
+        Umpire System
+      </h1>
+      <p class="subtitle is-5">
+        Help you umpire a game with simply pressing buttons and gives you all details of the game
+      </p>
+      <div class="box columns has-background-primary" style="margin-top:50px;margin-left:100px;margin-right:100px">
+        <div class="column has-text-centered" id="team1">
+            <h2 class="box subtitle team1" id="PA1">Player A1</h2>
+        </div>
+        <div class="column has-text-centered"> 
+            <h2 class="title is-2" id="ScoreText">0&nbsp;&nbsp;&nbsp;&nbsp;V&nbsp;&nbsp;&nbsp;&nbsp;0</h2>
+        </div>
+        <div class="column has-text-centered" id="team2">
+            <h2 class="box subtitle team2" id="PB1">Player B1</h2>
+        </div>
+    </div>
+    <div class="box columns is-justify-content-space-between has-background-primary-light" id="AllScore" style="margin-top:20px;margin-left:100px;margin-right:100px">
+      <button class="column button is-large is-ghost has-text-weight-bold">0 : 0</button>
+    </div>
+    <div class="box columns is-justify-content-space-between has-background-primary-light" style="margin-top:20px;margin-left:100px;margin-right:100px;">
+      <div class="needhide sd" hidden>
+        <button class="button is-success is-large hide" onclick="SSUpdate(1)">+1</button>
+      </div>
+      <div class="sd" hidden>
+        <button class="button is-warning fas fa-undo is-large" onclick="SSUpdate('recall')"></button>
+      </div>
+      <div class="sd" id="UpdateDraw" hidden>
+        <button class="button is-warning is-large" onclick="UpdateDraw()" hidden>Update</button>
+      </div>
+      <div class="needhide sd" hidden>
+        <button class="button is-success is-large" onclick="SSUpdate(2)">+1</button>
+      </div>
+      <div id="SMdiv">
+         <button class="button is-success" onclick="StartMatch()">Start Match</button>
+      </div>
+    </div>
+    
+    <details class="box content has-background-primary-light" style="margin-top:20px;margin-left:100px;margin-right:100px">
+      <summary class="subtitle">Other Actions</summary>
+      <div>
+        <!-- <button class="button is-warning" onclick="undoScore('B')">Walkover</button>
+        <button class="button is-warning" onclick="addScore('B')">Retire</button> -->
+        <button class="button is-success" onclick="ErrorCount(1)">Unforce Error for Team 1</button>
+        <button class="button is-success" onclick="ErrorCount(2)">Unforce Error for Team 2</button>
+        <div class="mt-5">
+          <label class="subtitle mr-3" for="GameType">Game Type</label>
+          <div class="select" onchange="UpdateGameType()">
+            <select id="GameType" class="n">
+              <option>Singles</option>
+              <option>Doubles</option>
+            </select>
+          </div>
+        </div>
+        <div class="mt-5">
+          <label class="subtitle mr-3" for="setNumber">Amout of sets</label>
+          <input id="setNumber" class="input is-small" type="number" style="width:50%" value=3 placeholder="3" onchange="UpdateSetLimit()">
+        </div>
+        <div class="mt-5">
+          <label class="subtitle mr-3" for="setNumber">Points per set</label>
+          <input id="pointNumber" class="input is-small" type="number" style="width:50%" value=21 placeholder="21"onchange="UpdateSetLimit()">
+        </div>
+        <div class="mt-5">
+          <label class="subtitle mr-3" for="MaxDeuce">Max Deuce</label>
+          <input id="MaxDeuce" class="input is-small" type="number" style="width:50%" value=30 placeholder="30" onchange="UpdateSetLimit()">
+        </div>
+        <div class="mt-5">
+          <label class="subtitle mr-3" for="PlayerA1">Team1 Player1</label>
+          <input id="PlayerA1" class="input is-small n" type="text" style="width:50%" value="PlayerA1" onchange="UpdatePlayerName()">
+        </div>
+        <div class="mt-5">
+          <label class="subtitle mr-3" for="PlayerA2">Team1 Player2</label>
+          <input id="PlayerA2" class="input is-small n" type="text" style="width:50%" value="PlayerA2" onchange="UpdatePlayerName()">
+        </div>
+        <div class="mt-5">
+          <label class="subtitle mr-3" for="PlayerB1">Team2 Player1</label>
+          <input id="PlayerB1" class="input is-small n" type="text" style="width:50%" value="PlayerB1" onchange="UpdatePlayerName()">
+        </div>
+        <div class="mt-5">
+          <label class="subtitle mr-3" for="PlayerB2">Team2 Player2</label>
+          <input id="PlayerB2" class="input is-small n" type="text" style="width:50%" value="PlayerB2" onchange="UpdatePlayerName()">
+        </div>
+        <div class="mt-5">
+          <label class="subtitle mr-3" for="Deuce">Deuce</label>
+          <input id="Deuce" class="checkbox" type="checkbox" checked onchange="UpdateSetLimit()">
+        </div>
+        
+        
+        
+      </div>
+    </details>
+    <details class="box content has-background-primary-light" style="margin-top:20px;margin-left:100px;margin-right:100px">
+      <summary class="subtitle">Other Information</summary>
+      <div>
+        <p class="subtitle" id="MatchDuration">Match Duration: Not Started</p>
+        <p class="subtitle" id="t1e">Team 1 Unforce Error: 0</p>
+        <p class="subtitle" id="t2e">Team 2 Unforce Error: 0</p>
+      </div>
+    </details>
+    <details class="box content has-background-primary-light" style="margin-top:20px;margin-left:100px;margin-right:100px">
+      <summary class="subtitle">Scoring Sequence</summary>
+      <div id="ScoreSequence">
+      </div>
+    </details>
+  
+        
+  </section>
+  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-database-compat.js"></script>
+  <script src="script.js"></script>
+  <script>
+    window.onload=function(){
+      document.getElementById("PA1").innerText=sessionStorage.getItem("PA1");
+      document.getElementById("PB1").innerText=sessionStorage.getItem("PB1");
+      if(sessionStorage.getItem("NeedToEditDraw")=="false"){
+        document.getElementById("UpdateDraw").remove();
+      }
+      else{
+        Array.from(document.getElementsByClassName("n")).forEach(e=>e.disabled=true);
+      }
+    };
+  </script>
+  </body>
+</html>

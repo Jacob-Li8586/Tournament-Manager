@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html class="has-background-grey-lighter">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Tournament Manager</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css">
+  </head>
+  <body>
+  <section class="section">
+    <div class="container">
+      <h1 class="title is-3">
+        Draw Generator
+      </h1>
+      <p class="subtitle is-5">
+        Generate a <strong>single elimination</strong> draw with simply typing in seeded players and other players!
+      </p>
+      <div style="display: flex;">
+        <p class="subtitle is-5 mb-2">Seeded Players&nbsp;&nbsp;</p>
+        <div class="select is-small mb-2">
+            <select id="SP_amount" onchange="checkChanges()">
+                <option>Amount</option>
+                <option>0</option>
+                <option>2</option>
+                <option>4</option>
+                <option>8</option> 
+                <option>16</option>
+                <option>32</option>
+                <option>64</option>
+                <option>128</option>
+                <option>256</option>
+                <option>512</option>
+            </select>
+        </div>
+      </div>
+      <textarea id="SP_text" class="textarea mb-5"  onchange="checkChanges()" placeholder="Player1&#10;Player2&#10;..." rows="4"></textarea>
+      <p class="subtitle is-5 mb-2">Other Players</p>
+      <textarea id="OP_text" class="textarea mb-4"  onchange="checkChanges()" placeholder="Player1&#10;Player2&#10;Player1&#10;Player2&#10;Player3&#10;Player4&#10;Player5&#10;Player6&#10;..." rows="10"></textarea>
+      <p class="subtitle" id="PlayerAmount">Amount of players: 0</p>
+      <button id="Cbutton" class="button is-medium mb-2 is-danger" onclick="CreateDraw()">Create Draw</button>
+      <div id="unselectN" class="notification is-warning" hidden>
+        <button onclick="unselectN_hide(true)" class="delete"></button>
+        <p>The <strong>amount of seeded players</strong> is not selected!</p>
+      </div>
+      <div id="sameN" class="notification is-warning" hidden>
+        <button class="delete" onclick="sameN_hide(true)"></button>
+        <p>The amount of seeded players you choose has to be the <strong>same</strong> as the amount of players you input!</p>
+      </div>
+      <div id="emptyN" class="notification is-warning" hidden>
+        <button class="delete" onclick="emptyN_hide(true)"></button>
+        <p>You cannot create a draw with <strong>less than 2</strong> players!</p>
+      </div>
+  </section>
+  <script src="script.js"></script>
+  </body>
+</html>

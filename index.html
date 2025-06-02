@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html class="has-background-grey-lighter">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Tournament Manager</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css">
+  </head>
+  <body>
+  <section class="section">
+    <div class="container has-text-centered">
+      <h1 class="title is-1">
+        Tournament Manager
+      </h1>
+      <p class="subtitle is-3">
+        Easy <strong>draw generator</strong> and <strong>umpiring system</strong>!
+      </p>
+      <button class="button is-large mr-2" onclick="Page('draw_generator')">Generate A Draw</button>
+      <button class="button is-large" onclick="Page('online_draw')">Online Draw</button>
+      <button class="button is-large ml-2" onclick="sessionStorage.setItem('PA1','Player A1');sessionStorage.setItem('PB1','Player B1');sessionStorage.setItem('NeedToEditDraw','false');Page('umpire');resetUmpire();">Umpire A Game</button>
+    </div>
+  </section>
+  <script src="script.js"></script>
+  </body>
+</html>

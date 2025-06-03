@@ -93,13 +93,13 @@
       if(sessionStorage.getItem("previousPage")=="umpire"){
         loadDraw(0);
       }
-      if(sessionStorage.getItem("drawUpdate")=="true"){
+      if(sessionStorage.getItem("DrawName")!=null&&document.getElementById("draw").innerHTML!=""){
         document.getElementById("urddiv").hidden=false;
+      }
+      if(sessionStorage.getItem("drawUpdate")=="true"){
         urdfunction();
       }
-      else{
-        sessionStorage.setItem("drawUpdate",false);
-      }
+      
       sessionStorage.setItem("previousPage","online_draw");
       
     }

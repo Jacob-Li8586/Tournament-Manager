@@ -93,8 +93,15 @@
       if(sessionStorage.getItem("previousPage")=="umpire"){
         loadDraw(0);
       }
+      if(sessionStorage.getItem("drawUpdate")=="true"){
+        document.getElementById("urddiv").hidden=false;
+        urdfunction();
+      }
+      else{
+        sessionStorage.setItem("drawUpdate",false);
+      }
       sessionStorage.setItem("previousPage","online_draw");
-      sessionStorage.setItem("drawUpdate",false);
+      
     }
       
   </script>

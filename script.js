@@ -642,6 +642,35 @@ function rtDraw(){
 
     };
     sessionStorage.setItem("drawUpdate",true);
+    const firebaseConfig = {
+        apiKey: "AIzaSyC4Lz707vDHufm0U2HDxqiKgwa9NyC71Ys",
+        authDomain: "yr9-dgt-tournament-manager.firebaseapp.com",
+        databaseURL: "https://yr9-dgt-tournament-manager-default-rtdb.asia-southeast1.firebasedatabase.app",
+        projectId: "yr9-dgt-tournament-manager",
+        storageBucket: "yr9-dgt-tournament-manager.firebasestorage.app",
+        messagingSenderId: "631705714704",
+        appId: "1:631705714704:web:4ef203af13d70279bc8a95",
+        measurementId: "G-CGBCF6XKVS"
+    };
+    
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+    const listRef = db.ref(sessionStorage.getItem("DrawName")); // 数组路径
+    // 监听数组变化
+    listRef.on('value', snapshot => {
+        const data = snapshot.val();
+        if (data) {
+            sessionStorage.setItem("Drawexist","true");
+            sessionStorage.setItem("udrawList",data[0]);
+            sessionStorage.setItem("ScoreList",data[1]);
+            loadDraw(parseInt(sessionStorage.getItem("drawPage")));
+            console.log(data);
+        }
+        else{
+            sessionStorage.setItem("Drawexist","false");
+            Umodaldisplay(true);
+        }
+    });
 }
 
 function urdfunction(){

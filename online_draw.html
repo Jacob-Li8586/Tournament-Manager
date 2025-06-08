@@ -30,7 +30,11 @@
         Online Draw
       </h1>
       <label for="DrawName" class="subtitle is=3">Draw Name</p>
-      <input id="DrawName" type="text" class="input mb-4" onchange="sessionStorage.setItem('DrawName',this.value)" style="width:60%">
+      <input id="DrawName" type="text" list="DrawOptions" class="input mb-4" onchange="sessionStorage.setItem('DrawName',this.value)" style="width:60%">
+      <datalist id="DrawOptions">
+        <option>1</option>
+        <option>2</option>
+      </datalist>
       <button class="button is-success" onclick="loadOLDraw(document.getElementById('DrawName').value)">Load</button>
       <span id="urddiv" hidden>
         <button class="button is-success fas fa-play is-medium" title="Update this draw to realtime database" id="urd" onclick="urdfunction()"></button>
@@ -101,7 +105,7 @@
       }
       
       sessionStorage.setItem("previousPage","online_draw");
-      
+      watchAllDataNames();
     }
       
   </script>

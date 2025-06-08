@@ -1,11 +1,13 @@
 function Page(html){
     window.location.href=html+'.html';
 }
-function checkChanges(){
+function checkChanges(){ //onchange for player list input
     const SP_amount=parseInt(document.getElementById("SP_amount").value);
+    //trim to avoid empty line
     const SP_list=document.getElementById("SP_text").value.split("\n").filter(item=>item.trim()!="");
     const OP_list=document.getElementById("OP_text").value.split("\n").filter(item=>item.trim()!="");
     var requireDrawSize=SP_amount+OP_list.length;
+    //change the colour of the button to show the input is valid/ invalid
     if(SP_amount==SP_list.length&&requireDrawSize>=2){
         const Cbutton=document.getElementById("Cbutton");
         Cbutton.classList.replace("is-danger","is-success");
@@ -21,6 +23,7 @@ function CreateDraw(){
     var SP_list=document.getElementById("SP_text").value.split("\n").filter(item=>item.trim()!="");
     const OP_list=document.getElementById("OP_text").value.split("\n").filter(item=>item.trim()!="");
     var requireDrawSize=SP_amount+OP_list.length;
+    //give seeded sign to seeded players
     for(var i=0;i<SP_list.length;i++){
         SP_list[i]= SP_list[i]+" ["+(i+1)+"]";
     }
@@ -299,30 +302,12 @@ function modaldisplay(bool,p1,p2,i,l){
             sessionStorage.setItem("ScoreList",ScoreList);
             if(document.getElementById("winnerSelect").value=="1"){    
                 udrawList[i+1][l/2]=udrawList[i][l];
-                // document.getElementById("P1Name"+i+","+l).classList.add("has-text-weight-bold");
-                // document.getElementById("P2Name"+i+","+l+1).classList.remove("has-text-weight-bold");
-                // document.getElementById("P1Score"+i+","+l).classList.add("has-text-weight-bold");
-                // document.getElementById("P2Score"+i+","+l+1).classList.remove("has-text-weight-bold");
-                // 
-                // document.getElementById("P2Dot"+i+","+l+1).innerHTML='';
             }
             if(document.getElementById("winnerSelect").value=="2"){
                 udrawList[i+1][l/2]=udrawList[i][l+1];
-                // document.getElementById("P1Name"+i+","+l).classList.remove("has-text-weight-bold");
-                // document.getElementById("P2Name"+i+","+l+1).classList.add("has-text-weight-bold");
-                // document.getElementById("P1Score"+i+","+l).classList.remove("has-text-weight-bold");
-                // document.getElementById("P2Score"+i+","+l+1).classList.add("has-text-weight-bold");
-                // document.getElementById("P1Dot"+i+","+l).innerHTML='';
-                // document.getElementById("P2Dot"+i+","+l+1).innerHTML='<i class="fas fa-circle" style="color:limegreen;"></i>';
             }
             if(document.getElementById("winnerSelect").value=="3"){
                 udrawList[i+1][l/2]="to be confirm";
-                // document.getElementById("P1Name"+i+","+l).classList.remove("has-text-weight-bold");
-                // document.getElementById("P2Name"+i+","+l+1).classList.remove("has-text-weight-bold");
-                // document.getElementById("P1Score"+i+","+l).classList.remove("has-text-weight-bold");
-                // document.getElementById("P2Score"+i+","+l+1).classList.remove("has-text-weight-bold");
-                // document.getElementById("P1Dot"+i+","+l).innerHTML='';
-                // document.getElementById("P2Dot"+i+","+l+1).innerHTML='';
             }
             sessionStorage.setItem("udrawList",udrawList);
             if(sessionStorage.getItem("drawUpdate")=="true"){
@@ -596,6 +581,38 @@ function loadOLDraw(DrawName){
             document.getElementById("urddiv").hidden=true;
             Umodaldisplay(true);
         }
+    });
+}
+function watchAllDataNames() {
+    const firebaseConfig = {
+        apiKey: "AIzaSyC4Lz707vDHufm0U2HDxqiKgwa9NyC71Ys",
+        authDomain: "yr9-dgt-tournament-manager.firebaseapp.com",
+        databaseURL: "https://yr9-dgt-tournament-manager-default-rtdb.asia-southeast1.firebasedatabase.app",
+        projectId: "yr9-dgt-tournament-manager",
+        storageBucket: "yr9-dgt-tournament-manager.firebasestorage.app",
+        messagingSenderId: "631705714704",
+        appId: "1:631705714704:web:4ef203af13d70279bc8a95",
+        measurementId: "G-CGBCF6XKVS"
+    };
+    
+    // 检查是否已经初始化过Firebase
+    if (!firebase.apps.length) {
+        firebase.initializeApp(firebaseConfig);
+    }
+    
+    const db = firebase.database();
+    const rootRef = db.ref('/');
+    
+    // 使用 on() 方法实时监听变化
+    document.getElementById("DrawOptions").innerHTML='';
+    rootRef.on('value', snapshot => {
+        const data = snapshot.val();
+        if (data) {
+            const dataNames = Object.keys(data);
+            dataNames.forEach(e=>document.getElementById("DrawOptions").innerHTML+="<option>"+e+"</option>");
+        }
+    }, error => {
+        console.error('监听数据变化时出错:', error);
     });
 }
 

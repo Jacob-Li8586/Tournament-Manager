@@ -565,8 +565,7 @@ function loadOLDraw(DrawName){
     
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
-    const listRef = db.ref(DrawName); // 数组路径
-    // 监听数组变化
+    const listRef = db.ref(DrawName);
     listRef.on('value', snapshot => {
         const data = snapshot.val();
         if (data) {
@@ -595,7 +594,6 @@ function watchAllDataNames() {
         measurementId: "G-CGBCF6XKVS"
     };
     
-    // 检查是否已经初始化过Firebase
     if (!firebase.apps.length) {
         firebase.initializeApp(firebaseConfig);
     }
@@ -603,7 +601,6 @@ function watchAllDataNames() {
     const db = firebase.database();
     const rootRef = db.ref('/');
     
-    // 使用 on() 方法实时监听变化
     document.getElementById("DrawOptions").innerHTML='';
     rootRef.on('value', snapshot => {
         const data = snapshot.val();
@@ -612,7 +609,7 @@ function watchAllDataNames() {
             dataNames.forEach(e=>document.getElementById("DrawOptions").innerHTML+="<option>"+e+"</option>");
         }
     }, error => {
-        console.error('监听数据变化时出错:', error);
+        console.error('Error:', error);
     });
 }
 
@@ -631,12 +628,12 @@ function changeOLD(DrawName){
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
 
-    const listRef = db.ref(DrawName); // 数组路径
+    const listRef = db.ref(DrawName);
     var udrawList=sessionStorage.getItem("udrawList").split(',');
     udrawList=A2A_2d(udrawList);
     var ScoreList=sessionStorage.getItem("ScoreList").split(',');
     ScoreList=A2A_2d(ScoreList);
-    listRef.set([udrawList,ScoreList]); // 设置为空数组
+    listRef.set([udrawList,ScoreList]);
 
 }
 function rtDraw(){
@@ -672,8 +669,7 @@ function rtDraw(){
     
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
-    const listRef = db.ref(sessionStorage.getItem("DrawName")); // 数组路径
-    // 监听数组变化
+    const listRef = db.ref(sessionStorage.getItem("DrawName"));
     listRef.on('value', snapshot => {
         const data = snapshot.val();
         if (data) {
